@@ -29,7 +29,7 @@ The ontology databases and hetionet knowledge graph provided within the GBA-KG h
 | Knowledge Graph | Hetionet | https://github.com/hetio/hetionet | 
 ### Literature knowledge acquisition
 Literature information can be manually organized into triples and imported. For the currently supported relationships, please refer to the `semmedb_data/origin/relation.csv` file. At the same time, we use NLP methods to accelerate this process.  
-![Process](https://github.com/liwenqingi/GBA-KG/blob/main/NLP_process.png) 
+![Process](https://github.com/liwenqingi/GBA-KG/blob/master/NLP_process.png) 
 #### 1.Choose study field
 By specifying field keywords in the `generate_kg_pubmed_abstracts.py` script, the corresponding literature abstracts can be downloaded automatically. Examples can refer to `kg_pubmed_abstracts.csv`.  
 #### 2.Generate training data
