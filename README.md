@@ -12,7 +12,7 @@ git clone https://github.com/liwenqingi/GBA-KG.git
 ```  
 This will create a new folder named "GBA-KG" on your current location. After this, follow the instructions in "Building GBA-KG". If you want to use following NLP tools, check the `requirements.txt` for detail. 
 ## Building GBA-KG  
-The construction of KG consists of two main steps, the first is to integrate multiple resources, the second is to acquire knowledge from literature and update it. Before building KGs, you should start neo4j docker(build via `Dockerfile`) and bern2 firstly following `run_bern2.sh` and `demo_graphdb_owl_neo4j_3.5.sh`. 
+The construction of KG consists of two main steps, the first is to integrate multiple resources, the second is to acquire knowledge from literature and update it. Before building KGs, you should start neo4j docker(build via `Dockerfile`) and bern2 firstly following `run_bern2.sh` and `demo_graphdb_owl_neo4j_3.5.sh`. Building up neo4j db can be find in [graph.db](https://drive.google.com/file/d/12YnI9uEGzormMct5qgicbvnHN-aFKu5b/view?usp=sharing).
 ### Integrate multiple resources  
 Ontology resources can be load into neo4j by `run_kg_creation.py`. After running this script, you should get results like `neo4j.png` via web browser. 
 
@@ -27,6 +27,8 @@ The ontology databases and hetionet knowledge graph provided within the GBA-KG h
 | Ontology | Uber-anatomy ontology | https://www.ebi.ac.uk/ols/ontologies/uberon |
 | Ontology | Gene Ontology | https://www.ebi.ac.uk/ols/ontologies/go |
 | Knowledge Graph | Hetionet | https://github.com/hetio/hetionet | 
+
+Ontology class expansion can ref to `semmedb_loading_script/extract_extensionclass_from_semmedb.py`.Relationship expansion can ref to `semmedb_loading_script/extract_relationship_from_filtered_csv.py`.
 ### Literature knowledge acquisition
 Literature information can be manually organized into triples and imported. For the currently supported relationships, please refer to the `semmedb_data/origin/relation.csv` file. At the same time, we use NLP methods to accelerate this process.  
 ![Process](https://github.com/liwenqingi/GBA-KG/blob/master/NLP_process.png) 
@@ -35,7 +37,7 @@ By specifying field keywords in the `generate_kg_pubmed_abstracts.py` script, th
 #### 2.Generate training data
 The data used in training comes from [SemMedDB](https://lhncbc.nlm.nih.gov/ii/tools/SemRep_SemMedDB_SKR/SemMedDB_download.html), triples are extracted from `PREDICATION`, and sentence information of triples is extracted from `SENTENCE`. We provide a processed dataset `semmedb_data/origin`, you can skip directly to the data generation stage if study field matches.
 #### 3.Information extraction
-Information extraction contains NER and RE,there is a packed script `run_nlp_kg.py` that can be used directly.Named entity recognition using [pymetamap](https://github.com/AnthonyMRios/pymetamap) and [BERN2](https://github.com/dmis-lab/BERN2). pymetamap is used to identify microbes, anatomy, BERN2 is used to identify other entity concepts.The module of relation extraction refers to [DeepKE](https://github.com/zjunlp/DeepKE) and the core algorithm is biobert+BiLSTM.We provide the fine-tuned [biobert model](https://drive.google.com/drive/u/0/my-drive) so you can skip model-training stage. Examples can refer to `kg_pubmed_abstracts.csv.ner.predict`.
+Information extraction contains NER and RE,there is a packed script `run_nlp_kg.py` that can be used directly.Named entity recognition using [pymetamap](https://github.com/AnthonyMRios/pymetamap) and [BERN2](https://github.com/dmis-lab/BERN2). pymetamap is used to identify microbes, anatomy, BERN2 is used to identify other entity concepts.The module of relation extraction refers to [DeepKE](https://github.com/zjunlp/DeepKE) and the core algorithm is biobert+BiLSTM.We provide the fine-tuned [biobert model](https://drive.google.com/file/d/1Go9XcDdrANZpwgnal1GOIaGCppDj_6IT/view?usp=sharing) so you can skip model-training stage. Examples can refer to `kg_pubmed_abstracts.csv.ner.predict`.
 #### 4.Cleaning and entity alignment
 Remove entities with unrecognized id and duplicate entities. Match the identified entity id with the id of the corresponding entity library.Examples can refer to `kg_pubmed_abstracts.csv.ner.predict.entity_aligned`.
 #### 5.Data loading
